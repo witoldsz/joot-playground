@@ -1,3 +1,26 @@
+What is this?
+-------------
+
+jOOQ is the superb database library. However, as of now it lacks transaction management. It is not so bad, because there are many ways to handle transactions in Java world. One example is the EJB container. It has transactions built-in, so everything you need is to get the DataSource resource and use it with jOOQ, plain JDBC, QueryDSL or what-else.
+
+Another option is to use Spring transactions.
+
+Not everyone likes to use EJB or Spring container, though. Some developers want or need something ultra lightweight.
+
+I don't know why, but instead of creating something ultra lightweight for transaction management, all the Java database libraries chose to implement transactions by adding extra methods here and there to the libraries itself. IMHO this is bad. Not only we have to dig through all the API in different libraries, but also we cannot use those libraries together across single transactions. Also, when we have separated transaction management, we have bunch of methods we are no allowed to use.
+
+As I said previously, jOOQ chose to go that way as well, see: https://github.com/jOOQ/jOOQ/issues/3229
+This project is supposed to support me fighting the stereotypes that creating a transaction manager is not lightweight alternative.
+
+**I say otherwise.**
+
+jOOT does not exist
+-------------------
+
+Well, that's true. It does not exist... yet. I Hope this stub and example will make it happen.
+
+jOOT concept does not reference jOOQ in any way. You can use jOOQ without jOOT and you should be able to use jOOT with no jOOQ.
+
 Example use:
 ------------
 
