@@ -10,9 +10,15 @@ Not everyone likes to use EJB or Spring container, though. Some developers want 
 I don't know why, but instead of creating something ultra lightweight for transaction management, all the Java database libraries chose to implement transactions by adding extra methods here and there to the libraries itself. IMHO this is bad. Not only we have to dig through all the API in different libraries, but also we cannot use those libraries together across single transactions. Also, when we have separated transaction management, we have bunch of methods we are no allowed to use.
 
 As I said previously, jOOQ chose to go that way as well, see: https://github.com/jOOQ/jOOQ/issues/3229
-This project is supposed to support me fighting the stereotypes that creating a transaction manager is not lightweight alternative.
+This project is supposed to support me fighting the stereotypes that creating a transaction manager is an option to be seriously considered. With this, I can show that the simple transaction manager does not mean:
+- using aspects and annotations,
+- introducing complicated libraries,
+- what else...
 
-**I say otherwise.**
+**I say otherwise.** Yes, the transaction manager as a standalone library can be:
+- simple,
+- lightweight,
+- does not mean using complicated things, aspects, annotations (but can be used to build such a framework).
 
 jOOT does not exist
 -------------------
@@ -23,6 +29,8 @@ jOOT concept does not reference jOOQ in any way. You can use jOOQ without jOOT a
 
 Example use:
 ------------
+
+See how simple the API can be. Notice: it is standalone library, not tied to jOOQ or any of the alternatives.
 
 ```java
 package joot.playground.example;
