@@ -25,30 +25,37 @@ public class Main {
         JdbcDataSource rawDs = new JdbcDataSource();
         rawDs.setURL("jdbc:h2:mem:db1");
 
+        // rawDs it's just an example, it can be anything like DB_URL+username+password,
+        // or datasource from some connection pool library
         JootFactory jootFactory = new JootFactory(rawDs);
         Joot joot = jootFactory.joot();
+
+        //now this is the managed datasource to be used with jOOT
         DataSource ds = jootFactory.jootDataSource();
 
-        DSLContext ctx = DSL.using(ds, SQLDialect.H2);
+        DSLContext jooq = DSL.using(ds, SQLDialect.H2);
 
         joot.transaction(() -> {
 
-            //using JooQ
-            ctx.insertInto(table("EXAMPLE"), field("ID"))
+            // using JooQ
+            jooq.insertInto(table("EXAMPLE"), field("ID"))
                     .values(1)
                     .execute();
 
-            //using plain JDBC
+            // using plain JDBC
             try (Connection c = ds.getConnection()) {
                 c.createStatement().executeQuery("SELECT * FROM EXAMPLE");
             }
 
-            //using anything else? no problem: use "ds" or objects which use it internally, like JooQ
-            //...
+            // Using anything else? Hibernate? JPA?
+            // No problem: use "ds" as a data source and jOOT will handle transactions
+            // ...
         });
 
+        // Convenient method to pull some result out of transaction scope;
+        // just return anything, whatever object you want.
         Long id = joot.transactionResult(() -> {
-            return ctx.select(field("ID"))
+            return jooq.select(field("ID"))
                     .from(table("EXAMPLE"))
                     .fetchOne(field("ID", Long.class));
         });
